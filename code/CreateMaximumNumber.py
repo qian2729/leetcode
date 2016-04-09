@@ -16,23 +16,14 @@ class Solution(object):
         return stack
 
     def merge(self,nums1, nums2):
-        size1 = len(nums1)
-        size2 = len(nums2)
-        index1, index2 = 0, 0
         ans = []
-        while index1 < size1 and index2 < size2:
-            if nums1[index1] > nums2[index2]:
-                ans.append(nums1[index1]);
-                index1 += 1
+        while nums1 or nums2:
+            if nums1 > nums2:
+                ans.append(nums1[0])
+                nums1 = nums1[1:]
             else:
-                ans.append(nums2[index2])
-                index2 += 1
-        while index1 < size1:
-            ans.append(nums1[index1])
-            index1 += 1
-        while index2 < size2:
-            ans.append(nums2[index2])
-            index2 += 1
+                ans.append(nums2[0])
+                nums2 = nums2[1:]
         return ans
 
     def maxNumber(self, nums1, nums2, k):
@@ -45,8 +36,10 @@ class Solution(object):
         size_1 = len(nums1)
         size_2 = len(nums2)
         ans = []
-        for i in range(max(0,k - size_2),min(size_1,k)):
+        for i in range(max(0,k - size_2), min(size_1,k) + 1):
             subarray = self.merge(self.max_array(nums1,i), self.max_array(nums2, k - i))
             if subarray > ans:
                 ans = subarray
         return ans
+
+print Solution().maxNumber([6,7],[6,0,4],5)
